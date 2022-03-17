@@ -1,12 +1,12 @@
 export default {
-  firstname: 'nicolas',
-  lastname: 'brun',
+  firstname: 'roger',
+  lastname: 'lamotte',
   about: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   position: 'senior software developer',
-  email: 'brun.nicolas21@gmail.com',
-  phone: '0479/31.12.94',
+  email: 'roger.lamotte@midbel.org',
+  phone: '0479/12.45.32',
   address: {
-    street: '4 cour du baron',
+    street: '4 rue du Limbourg',
     city: 'Ath',
     zip: '7800',
     country: 'Belgium'

@@ -2,16 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Resume from './App';
-import Signin from './Signin.js';
+import { Signin, Signout } from './Signin.js';
+import { AuthProvider } from './context.js'
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Resume />}/>
-        <Route path="/signin" element={<Signin />}/>
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<Resume />}/>
+          <Route path="/signin" element={<Signin />}/>
+          <Route path="/signout" element={<Signout />}/>
+        </Routes>
+        </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')

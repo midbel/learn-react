@@ -4,8 +4,14 @@ import EducationView from './Education.js';
 import LanguageView from './Language.js';
 import TechnicalView from './Technical.js';
 import About from './Contact.js';
+import { useAuth } from './context.js'
+import { Navigate } from 'react-router-dom'
 
-function App() {
+function Resume() {
+  const { isAuthenticated } = useAuth()
+  if (!isAuthenticated()) {
+    return <Navigate to="/signin"/>
+  }
   return (
     <div className="App container-fluid mt-5">
       <div className="row">
@@ -31,4 +37,4 @@ function App() {
   );
 }
 
-export default App;
+export default Resume;

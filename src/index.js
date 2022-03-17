@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Resume from './App';
+import Resume from './Resume.js';
 import { Signin, Signout } from './Signin.js';
 import { AuthProvider } from './context.js'
 import reportWebVitals from './reportWebVitals';

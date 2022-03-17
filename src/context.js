@@ -8,8 +8,8 @@ const UserContext = React.createContext({ user: '', pass: '' })
 
 function initialState() {
   return {
-    user: 'pierre.dubois@midbel.org',
-    pass: 'supersecurepassword'
+    user: '',
+    pass: ''
   }
 }
 
@@ -46,8 +46,8 @@ function AuthProvider({ children }) {
     error,
     signin,
     signout,
-    authenticated
-  }), [user, error, signin, signout, authenticated])
+    isAuthenticated
+  }), [user, error, signin, signout, isAuthenticated])
 
   return (<UserContext.Provider value={memo}>
     {children}

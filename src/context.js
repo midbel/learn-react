@@ -3,6 +3,7 @@ import React, {
   useMemo
 } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { authenticate } from './api.js'
 
 const UserContext = React.createContext({ user: '', pass: '' })
 
@@ -13,7 +14,7 @@ function initialState() {
   }
 }
 
-function AuthProvider({ children }) {
+function AuthProvider({ signin, home, children }) {
   const [user, setUser] = useState(initialState())
   const [authenticated, setAuthenticated] = useState(false)
   const [error, setError] = useState('')
@@ -21,20 +22,23 @@ function AuthProvider({ children }) {
 
   function signin(email, pass) {
     setError('')
+    setAuthenticated(false)
     if (!email || !pass) {
       setError("email/password should be provided")
       return
     }
-    setAuthenticated(true)
-    setUser({ user: email, pass: pass })
-    navigate('/', { replace: true })
+    authenticate(email, pass).then(body => {
+      setAuthenticated(true)
+      setUser({ user: email, pass: pass })
+      navigate(home, { replace: true })
+    }).catch(err => setError(err.toString()))
   }
 
   function signout() {
     setError('')
     setAuthenticated(false)
     setUser(undefined)
-    navigate('/signin', { replace: true })
+    navigate(signin, { replace: true })
   }
 
   function isAuthenticated() {

@@ -7,30 +7,40 @@ import About from './Contact.js';
 import { useAuth } from './context.js'
 import { Navigate } from 'react-router-dom'
 
+function Profile(props) {
+  return (<About profile={props.profile}/>)
+}
+
+function Career(props) {
+  return (<>
+    <div className="mb-4">
+      <CareerView items={props.profile.careers}/>
+    </div>
+    <div className="mb-4">
+      <EducationView items={props.profile.educations}/>
+    </div>
+    <div className="mb-4">
+      <LanguageView items={props.profile.languages}/>
+    </div>
+    <div className="mb-4">
+      <TechnicalView items={props.profile.hardskills}/>
+    </div>
+  </>)
+}
+
 function Resume() {
   const { isAuthenticated } = useAuth()
   if (!isAuthenticated()) {
     return <Navigate to="/signin"/>
   }
   return (
-    <div className="App container-fluid mt-5">
+    <div className="container-fluid mt-5">
       <div className="row">
         <div className="col-3">
-          <About profile={profile}/>
+          <Profile profile={profile}/>
         </div>
         <div className="col-9">
-          <div className="mb-4">
-            <CareerView items={profile.careers}/>
-          </div>
-          <div className="mb-4">
-            <EducationView items={profile.educations}/>
-          </div>
-          <div className="mb-4">
-            <LanguageView items={profile.languages}/>
-          </div>
-          <div className="mb-4">
-            <TechnicalView items={profile.hardskills}/>
-          </div>
+          <Career profile={profile}/>
         </div>
       </div>
     </div>

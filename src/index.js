@@ -9,7 +9,7 @@ import reportWebVitals from './reportWebVitals';
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <AuthProvider>
+      <AuthProvider home="/" signin="/signin">
         <Routes>
           <Route path="/" element={<Resume />}/>
           <Route path="/signin" element={<Signin />}/>

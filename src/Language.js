@@ -3,7 +3,7 @@ import { Header, Star } from './commons.js'
 
 function LanguageEntry(props) {
   return (<tr>
-    <td width="15%">{props.curr.name}</td>
+    <td width="15%">{props.curr.lang}</td>
     <td>{props.curr.desc}</td>
     <td width="10%" className="text-center">
       {props.curr.mother ? <i className="bi bi-check-square"></i> : <i className="bi bi-square"></i>}
@@ -15,7 +15,7 @@ function LanguageEntry(props) {
 }
 
 function LanguageView(props) {
-  const list = props.items.map((i) => <LanguageEntry key={i.name} curr={i}/>)
+  const list = props.items.map((i) => <LanguageEntry key={i.lang} curr={i}/>)
   return (<section>
     <Header title="languages"/>
     <table className="table">

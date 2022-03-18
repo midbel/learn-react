@@ -10,25 +10,38 @@ import { getPayload } from './token.js'
 const UserContext = React.createContext({ user: '', pass: '' })
 
 function initialState() {
-  return {
-    user: '',
-    pass: ''
-  }
+  return {id: 0}
 }
 
 function storeToken(token) {
-  localStorage.setItem("token", token)
+  localStorage.setItem('token', token)
   if (!token) {
-    localStorage.removeItem("token")
+    localStorage.removeItem('token')
   }
+}
+
+function storeUser(user) {
+  if (!user) {
+    localStorage.removeItem('user')
+    return
+  }
+  localStorage.setItem('user', JSON.stringify(user))
 }
 
 function getToken() {
   return localStorage.getItem('token') || ''
 }
 
-function AuthProvider({ signin, home, children }) {
-  const [user, setUser] = useState(initialState())
+function getUser() {
+  try {
+    return JSON.parse(localStorage.getItem('user'))
+  } catch(_) {
+    return initialState()
+  }
+}
+
+function AuthProvider({ sign, home, children }) {
+  const [user, setUser] = useState(getUser())
   const [token, setToken] = useState(getToken())
   const [error, setError] = useState('')
   const navigate = useNavigate()
@@ -46,8 +59,11 @@ function AuthProvider({ signin, home, children }) {
     }
     authenticate(email, pass).then(body => {
       const {token, ...data} = body
+      user.id = data.item.id
       setToken(token)
-      setUser(data.item)
+      storeToken(token)
+      setUser(user)
+      storeUser(user)
       navigate(home, { replace: true })
     }).catch(err => setError(err.toString()))
   }
@@ -55,7 +71,9 @@ function AuthProvider({ signin, home, children }) {
   function signout() {
     setError('')
     setToken('')
-    setUser(undefined)
+    storeToken('')
+    storeUser()
+    setUser(initialState())
     navigate(signin, { replace: true })
   }
 

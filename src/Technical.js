@@ -1,6 +1,7 @@
 // import React from 'react'
 import { Header, Star } from './commons.js'
 
+
 function SkillEntry(props) {
   return (<tr>
     {props.index === 0 &&
@@ -22,7 +23,7 @@ function Skill(props) {
 }
 
 function TechnicalView(props) {
-  const list = props.items.map((i) => <Skill key={i.category} item={i}/>)
+  const list = props.items.map((i, j) => <Skill key={j} item={i}/>)
   return (<section>
     <Header title="technical skills"/>
     <table className="table">

@@ -11,7 +11,7 @@ function CareerEntry(props) {
     </td>
     <td>{props.curr.employer}</td>
     <td>{props.curr.location}</td>
-    <td>{props.curr.position}</td>
+    <td>{props.curr.title}</td>
   </tr>)
 }
 

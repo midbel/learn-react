@@ -2,7 +2,7 @@ import { IconText} from './commons.js'
 
 function Thumbnail(props) {
   return (<div className="text-center mb-5">
-    <img src="https://via.placeholder.com/200" className="img-thumbnail rounded-circle"/>
+    <img alt="profile" src="https://via.placeholder.com/200" className="img-thumbnail rounded-circle"/>
   </div>)
 }
 
@@ -43,8 +43,8 @@ function Summary(props) {
 
 function About(props) {
   const who = {
-    firstname: props.profile.firstname,
-    lastname: props.profile.lastname,
+    firstname: props.profile.first_name,
+    lastname: props.profile.last_name,
     position: props.profile.position
   }
   return (<div>

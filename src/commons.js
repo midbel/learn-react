@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 function Header(props) {
   return (<header className="border-bottom">
     <h1 className="h4 text-capitalize">{props.title}</h1>
@@ -33,4 +35,21 @@ function YearDate(props) {
   return (<span>{when.getFullYear()}</span>)
 }
 
-export {Header, Star, IconText, YearDate}
+function Nav() {
+  return (<nav className="navbar navbar-light bg-light border-bottom">
+    <div className="container-fluid">
+      <a className="navbar-brand" href="#">Resume</a>
+      <div className="">
+        <ul className="navbar-nav">
+          <li className="nav-item">
+            <Link to="/signout" className="nav-link">
+              <i className="bi bi-box-arrow-right"></i>
+            </Link>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>)
+}
+
+export {Header, Star, IconText, YearDate, Nav}

@@ -1,8 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useAuth } from './context.js'
 
 function Signout() {
+  const { token, signout, isAuthenticated } = useAuth()
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      return
+    }
+    signout()
+  }, [token] )
   return <Navigate to="/signin"/>
 }
 

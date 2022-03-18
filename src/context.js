@@ -1,7 +1,8 @@
 import React, {
   useState,
   useEffect,
-  useMemo
+  useMemo,
+  useReducer
 } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { authenticate} from './api.js'
@@ -9,15 +10,12 @@ import { getPayload } from './token.js'
 
 const UserContext = React.createContext({ user: '', pass: '' })
 
-function initialState() {
-  return {id: 0}
-}
-
 function storeToken(token) {
-  localStorage.setItem('token', token)
   if (!token) {
     localStorage.removeItem('token')
+    return
   }
+  localStorage.setItem('token', token)
 }
 
 function storeUser(user) {
@@ -28,58 +26,86 @@ function storeUser(user) {
   localStorage.setItem('user', JSON.stringify(user))
 }
 
-function getToken() {
-  return localStorage.getItem('token') || ''
+function initialUser() {
+  return {id: 0}
 }
 
-function getUser() {
+function initialState() {
+  let user;
   try {
-    return JSON.parse(localStorage.getItem('user')) || initialState()
+    user = JSON.parse(localStorage.getItem('user')) || initialUser()
   } catch(_) {
-    return initialState()
+    user = initialUser()
+  }
+  return {
+    user,
+    token: localStorage.getItem('token') || '',
+    error: '',
+  }
+}
+
+function userReducer(state, {type, payload}) {
+  switch (type) {
+    case 'invalid':
+      return {
+        ...state,
+        user: initialUser(),
+        error: payload.error,
+        token: '',
+      }
+    case 'signin':
+      storeToken(payload.token)
+      storeUser(payload.user)
+      return {
+        user: payload.user,
+        token: payload.token,
+        error: ''
+      }
+    case 'signout':
+      storeToken()
+      storeUser()
+      return {
+        user: initialUser(),
+        token: '',
+        error: '',
+      }
+    default:
+      throw new Error(`unhandled transition: ${type}`)
   }
 }
 
 function AuthProvider({ sign, home, children }) {
-  const [user, setUser] = useState(getUser())
-  const [token, setToken] = useState(getToken())
-  const [error, setError] = useState('')
   const navigate = useNavigate()
-
-  useEffect(() => {
-    storeToken(token)
-  })
+  const [state, dispatch] = useReducer(userReducer, initialState())
 
   function signin(email, pass) {
-    setError('')
-    setToken('')
     if (!email || !pass) {
-      setError("email/password should be provided")
+      dispatch({type: 'invalid', payload: {
+        error: 'email/password should be provided',
+      }})
       return
     }
     authenticate(email, pass).then(body => {
       const {token, ...data} = body
-      user.id = data.item.id
-      setToken(token)
-      storeToken(token)
-      setUser(user)
-      storeUser(user)
+      dispatch({type: 'signin', payload: {
+        token,
+        user: data.item,
+      }})
       navigate(home, { replace: true })
-    }).catch(err => setError(err.toString()))
+    }).catch(err => {
+      const error = err.toString()
+      dispatch({type: 'invalid', payload: { error }})
+    })
   }
 
   function signout() {
-    setError('')
-    setToken('')
-    storeToken('')
-    storeUser()
-    setUser(initialState())
+    dispatch({type: 'signout'})
     navigate(signin, { replace: true })
   }
 
   function isAuthenticated() {
     try {
-      getPayload(token)
+      getPayload(state.token)
       return true
     } catch(err) {
       return false
@@ -87,13 +113,11 @@ function AuthProvider({ sign, home, children }) {
   }
 
   const memo = useMemo(() => ({
-    user,
-    error,
-    token,
+    ...state,
     signin,
     signout,
     isAuthenticated
-  }), [user, error, token, signin, signout, isAuthenticated])
+  }), [state.user, state.error, state.token, signin, signout, isAuthenticated])
 
   return (<UserContext.Provider value={memo}>
     {children}

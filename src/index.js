@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Resume from './Resume.js';
 import { Signin, Signout } from './Signin.js';
 import { AuthProvider } from './context.js'
+import EditCareer from './EditCareer.js'
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
@@ -11,7 +12,9 @@ ReactDOM.render(
     <BrowserRouter>
       <AuthProvider home="/" sign="/signin">
         <Routes>
-          <Route path="/" element={<Resume />}/>
+          <Route path="/" element={<Resume />}>
+            <Route path="/careers/:id" element={<EditCareer />}/>
+          </Route>
           <Route path="/signin" element={<Signin />}/>
           <Route path="/signout" element={<Signout />}/>
         </Routes>

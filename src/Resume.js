@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate, Outlet } from 'react-router-dom'
 import CareerView from './Career.js';
 import EducationView from './Education.js';
 import LanguageView from './Language.js';
@@ -49,13 +49,13 @@ function Resume() {
   const [profile, setProfile] = useState(defaultProfile)
   const { user, token, isAuthenticated } = useAuth()
 
-  useEffect(async () => {
-    const refresh = async () => {
+  useEffect(() => {
+    async function refresh () {
       const body = await getProfile(user.id, token)
       setProfile(body)
     }
     refresh()
-  }, [user.id])
+  }, [user.id, token])
 
   if (!isAuthenticated()) {
     return <Navigate to="/signin"/>
@@ -65,6 +65,7 @@ function Resume() {
   }
   return (<>
     <Nav />
+    <Outlet />
     <div className="container-fluid mt-5">
       <div className="row">
         <div className="col-3">

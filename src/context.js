@@ -1,7 +1,4 @@
 import React, {
-  useState,
-  useEffect,
-  useMemo,
   useReducer
 } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -112,12 +109,12 @@ function AuthProvider({ sign, home, children }) {
     }
   }
 
-  const memo = useMemo(() => ({
+  const memo = {
     ...state,
     signin,
     signout,
     isAuthenticated
-  }), [state.user, state.error, state.token, signin, signout, isAuthenticated])
+  }
 
   return (<UserContext.Provider value={memo}>
     {children}

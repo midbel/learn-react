@@ -34,7 +34,7 @@ function getToken() {
 
 function getUser() {
   try {
-    return JSON.parse(localStorage.getItem('user'))
+    return JSON.parse(localStorage.getItem('user')) || initialState()
   } catch(_) {
     return initialState()
   }

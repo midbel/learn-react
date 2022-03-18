@@ -5,6 +5,9 @@ import Resume from './Resume.js';
 import { Signin, Signout } from './Signin.js';
 import { AuthProvider } from './context.js'
 import EditCareer from './EditCareer.js'
+import EditEducation from './EditEducation.js'
+import EditLanguage from './EditLanguage.js'
+import EditTechnical from './EditTechnical.js'
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
@@ -14,6 +17,9 @@ ReactDOM.render(
         <Routes>
           <Route path="/" element={<Resume />}>
             <Route path="/careers/:id" element={<EditCareer />}/>
+            <Route path="/educations/:id" element={<EditEducation />}/>
+            <Route path="/languages/:id" element={<EditLanguage />}/>
+            <Route path="/technicals/:id" element={<EditTechnical />}/>
           </Route>
           <Route path="/signin" element={<Signin />}/>
           <Route path="/signout" element={<Signout />}/>

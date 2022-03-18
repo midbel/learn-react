@@ -12,7 +12,7 @@ function CareerEntry(props) {
     <td>{props.curr.employer}</td>
     <td>{props.curr.location}</td>
     <td>{props.curr.title}</td>
-    <td className="text-end">
+    <td width="5%" className="text-end">
       <Link to={`/careers/${props.curr.id}`} className="btn btn-outline-secondary btn-sm">
         <i className="bi bi-pencil"></i>
       </Link>

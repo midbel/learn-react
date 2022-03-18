@@ -1,4 +1,5 @@
 // import React from 'react'
+import {Link} from 'react-router-dom'
 import { Header, YearDate } from './commons.js'
 
 function EducationEntry(props) {
@@ -13,6 +14,11 @@ function EducationEntry(props) {
       <td className="text-capitalize">{props.curr.school}</td>
       <td className="text-capitalize">{props.curr.location}</td>
       <td>{props.curr.degree}</td>
+      <td width="5%" className="text-end">
+        <Link to={`/educations/${props.curr.id}`} className="btn btn-outline-secondary btn-sm">
+          <i className="bi bi-pencil"></i>
+        </Link>
+      </td>
     </tr>)
 }
 

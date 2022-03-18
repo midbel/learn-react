@@ -1,4 +1,5 @@
 // import React from 'react'
+import {Link} from 'react-router-dom'
 import { Header, Star } from './commons.js'
 
 
@@ -11,6 +12,11 @@ function SkillEntry(props) {
     <td width="10%" className="text-center">{props.curr.seniority}</td>
     <td width="20%">
       <Star level={props.curr.level}/>
+    </td>
+    <td width="5%" className="text-end">
+      <Link to={`/technicals/${props.curr.id}`} className="btn btn-outline-secondary btn-sm">
+        <i className="bi bi-pencil"></i>
+      </Link>
     </td>
   </tr>)
 }
